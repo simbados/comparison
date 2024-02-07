@@ -21,10 +21,10 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
   --accent: rgba(136, 58, 234);
-  --accent-light: rgba(224, 204, 250);
+  --accent-light: rgb(197, 195, 253);
   --accent-dark: rgba(49, 10, 101);
   --accent-gradient: linear-gradient(
-          20deg,
+          60deg,
           var(--accent),
           var(--accent-light) 60%,
           white 10%
@@ -88,8 +88,15 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 15px;
+  font-size: 20px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@media screen and (max-width: 728px) {
+  body {
+    font-size: 15px;
+  }
+}
+
