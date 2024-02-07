@@ -99,6 +99,7 @@ button {
   width: 10em;
   padding: 0.5em;
   align-self: center;
+  color: var(--vt-c-text-dark-2);
 }
 button:hover {
   transform: translateY(1px);
