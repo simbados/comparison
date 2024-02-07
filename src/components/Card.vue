@@ -14,15 +14,15 @@
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   width: fit-content;
 }
-@media screen and (max-width: 728px) {
+@media screen and (max-height: 728px), (max-width: 728px) {
   .card {
     width: 90vw;
     margin-inline: auto;
   }
-  @media screen and (orientation: landscape) and (max-width: 728px) {
-    .card {
-      margin-bottom: 0;
-    }
+}
+@media screen and (orientation: landscape) and (max-height: 728px) {
+  .card {
+    margin-bottom: 0;
   }
 }
 </style>

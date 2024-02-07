@@ -88,7 +88,7 @@ h2, caption {
   box-shadow: inset 0 0 4px 0 #770404;
 }
 button {
-  background-color: #8b99b2;
+  background-color: #4a5260;
   cursor: pointer;
   outline: none;
   border: solid 1px var(--accent-dark);
@@ -129,7 +129,7 @@ input {
   gap: 0.5em
 }
 
-@media screen and (orientation: landscape) and (max-width: 728px) {
+@media screen and (orientation: landscape) and (max-height: 728px) {
   h1 {
     display: none;
   }

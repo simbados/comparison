@@ -13,7 +13,7 @@
   }
 }
 
-@media screen and (orientation: landscape) and (max-width: 728px) {
+@media screen and (orientation: landscape) and (max-height: 728px) {
   #app {
     padding: 0;
   }

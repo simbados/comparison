@@ -28,7 +28,7 @@ h1 {
   display: flex;
   flex-direction: column;
 }
-@media screen and (orientation: landscape) and (max-width: 728px) {
+@media screen and (orientation: landscape) and (max-height: 728px) {
   .comparison {
     min-height: 100vh;
     place-content: center;
