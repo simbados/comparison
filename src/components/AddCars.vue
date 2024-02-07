@@ -9,7 +9,7 @@ function addCar() {
   invalidInput.value = [];
   if (!name.value || typeof name.value !== 'string') {
     invalidInput.value.push(InputType.NAME)
-    store.setErrorMessage("Please fill out the name");
+    store.setErrorMessage("Please fill out the car name");
     return;
   }
   if (checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE)) {
@@ -40,11 +40,11 @@ function checkIfInvalidNumber(value: Ref<number>, type: InputType) {
 const invalidInput = ref([] as InputType[])
 
 enum InputType {
-  NAME,
-  LEASING_PRICE,
-  LEASING_TIME,
-  BUYING_PRICE,
-  SELLING_PRICE
+  NAME = 'Car Name',
+  LEASING_PRICE = 'leasing price',
+  LEASING_TIME = 'leasing time',
+  BUYING_PRICE = 'buying price',
+  SELLING_PRICE = 'selling price'
 }
 
 function removeInvalid(type: InputType) {
@@ -65,13 +65,13 @@ const sellingPrice = ref()
           <label for="carname">Car name</label>
           <input @focus="removeInvalid(InputType.NAME)" :class="{'invalid': invalidInput.includes(InputType.NAME)}" v-model="name" type="text" name="name" id="carname" />
           <label for="leasingPrice">Leasing Price</label>
-          <input @focus="removeInvalid(InputType.LEASING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.LEASING_PRICE)}" v-model="leasingPrice" type="text" name="leasingPrice" id="leasingPrice" required pattern="[1-9]+"/>
+          <input @focus="removeInvalid(InputType.LEASING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.LEASING_PRICE)}" v-model="leasingPrice" type="number" name="leasingPrice" id="leasingPrice" required pattern="[1-9]+"/>
           <label for="leasingTime">Leasing Time</label>
-          <input @focus="removeInvalid(InputType.LEASING_TIME)" :class="{'invalid': invalidInput.includes(InputType.LEASING_TIME)}" v-model="leasingTime" type="text" name="leasingTime" id="leasingTime" required pattern="[1-9]+"/>
+          <input @focus="removeInvalid(InputType.LEASING_TIME)" :class="{'invalid': invalidInput.includes(InputType.LEASING_TIME)}" v-model="leasingTime" type="number" name="leasingTime" id="leasingTime" required pattern="[1-9]+"/>
           <label for="buying">Buying Price</label>
-          <input @focus="removeInvalid(InputType.BUYING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.BUYING_PRICE)}" v-model="buyingPrice" type="text" name="buying" id="buying" required pattern="[1-9]+"/>
+          <input @focus="removeInvalid(InputType.BUYING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.BUYING_PRICE)}" v-model="buyingPrice" type="number" name="buying" id="buying" required pattern="[1-9]+"/>
           <label for="selling">Selling Price</label>
-          <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="text" name="selling" id="selling" required pattern="[1-9]+"/>
+          <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="number" name="selling" id="selling" required pattern="[1-9]+"/>
       </div>
       <button @click="addCar" id="add-button">Add Car</button>
     </Card>
@@ -113,6 +113,7 @@ input {
   margin: 0 0.2em;
   max-width: 10em;
   font-weight: 700;
+  font-size: 16px;
 }
 .accent {
   color: #ceccfd;
