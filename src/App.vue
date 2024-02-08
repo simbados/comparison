@@ -1,12 +1,11 @@
 <script setup lang="ts">
   import { openDb } from '@/indexDb/indexDbStorage'
   import ErrorMessage from '@/components/ErrorMessage.vue'
-  import { store } from '@/store/rootStore'
 
   openDb()
 </script>
 <template>
-  <body @click="store.clickedOutside()">
+  <body>
     <ErrorMessage />
     <RouterView/>
   </body>
