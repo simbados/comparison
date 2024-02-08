@@ -15,5 +15,9 @@ export const store = reactive({
         setTimeout(() => {
             this.errorMessage = "";
         }, 2000);
+    },
+    outSideClick: false,
+    setClickedOutside() {
+        this.outSideClick = true
     }
 })
