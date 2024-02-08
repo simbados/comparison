@@ -3,7 +3,7 @@ import { store } from '@/store/rootStore'
 import type { Car } from '@/models/Car'
 
 const DB_NAME = 'comparison';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const DB_STORE_NAME = 'cars';
 
 let db: IDBDatabase;
@@ -20,13 +20,10 @@ export function openDb() {
   };
 
   indexDb.onupgradeneeded = (event: any) => {
-    const dbUpgrade = event.target.result
-    const objectStore = dbUpgrade.createObjectStore(DB_STORE_NAME, { keyPath: "id" });
-    objectStore.createIndex("id", "id", { unique: true });
-    objectStore.createIndex("name", "name", { unique: false });
-    objectStore.createIndex("buyingPrice", "buyingPrice", { unique: false });
-    objectStore.createIndex("leasingPrice", "leasingPrice", { unique: false });
-    objectStore.createIndex("sellingPrice", "sellingPrice", { unique: false });
+    const target = event.target;
+    const transaction = target.transaction;
+    const objectStore = transaction.objectStore(DB_STORE_NAME);
+    objectStore.createIndex("leasingDeposit", "leasingDeposit", { unique: false });
     objectStore.transaction.oncomplete = () => {
       console.log("Complete upgrade")
     };
@@ -61,6 +58,7 @@ export function addCarToStorage(car: CarData) {
   req.onerror = function(event: any) {
     console.error("addCar error", event.target.error);
   };
+  console.log(car);
   addCarToArr(car)
 }
 

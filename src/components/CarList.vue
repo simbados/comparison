@@ -17,6 +17,7 @@ function deleteCar(car: Car) {
       <thead>
       <tr>
         <th>Name</th>
+        <th>Leasing Deposit</th>
         <th>Leasing Price</th>
         <th>Buying Price</th>
         <th>Selling Price</th>
@@ -28,9 +29,10 @@ function deleteCar(car: Car) {
       <tbody>
       <tr v-for="car of store.allCars" :key="car.name">
         <td>{{car.name}}</td>
+        <td>{{car.leasingDeposit}}</td>
         <td>{{car.leasingPrice}}</td>
-        <td>{{car.sellingPrice}}</td>
         <td>{{car.buyingPrice}}</td>
+        <td>{{car.sellingPrice}}</td>
         <td>{{car.leasingTotal}}</td>
         <td>{{car.buyingTotal}}</td>
         <td>

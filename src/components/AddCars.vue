@@ -4,6 +4,8 @@ import Card from '@/components/Card.vue'
 import type { CarData } from '@/models/CarData'
 import { addCarToStorage } from '@/indexDb/indexDbStorage'
 import { store } from '@/store/rootStore'
+import Tooltip from '@/components/Tooltip.vue'
+import { Placement } from '@/models/Placement'
 
 function addCar() {
   invalidInput.value = [];
@@ -12,19 +14,12 @@ function addCar() {
     store.setErrorMessage("Please fill out the car name");
     return;
   }
-  if (checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE)) {
-    return;
-  }
-  if (checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME)) {
-    return;
-  }
-  if (checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE)) {
-    return;
-  }
-  if (checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE)) {
-    return;
-  }
-  const car: CarData = { id: crypto.randomUUID(), name: name.value, buyingPrice: buyingPrice.value, leasingPrice: leasingTime.value * leasingPrice.value, sellingPrice: sellingPrice.value }
+  checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE);
+  checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME);
+  checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE)
+  checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE);
+  checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT);
+  const car: CarData = { id: crypto.randomUUID(), name: name.value, leasingDeposit: leasingDeposit.value, buyingPrice: buyingPrice.value, leasingPrice: leasingTime.value * leasingPrice.value, sellingPrice: sellingPrice.value }
   addCarToStorage(car)
 }
 
@@ -44,7 +39,8 @@ enum InputType {
   LEASING_PRICE = 'leasing price',
   LEASING_TIME = 'leasing time',
   BUYING_PRICE = 'buying price',
-  SELLING_PRICE = 'selling price'
+  SELLING_PRICE = 'selling price',
+  LEASING_DEPOSIT = 'leasing deposit'
 }
 
 function removeInvalid(type: InputType) {
@@ -54,6 +50,7 @@ function removeInvalid(type: InputType) {
 const name = ref()
 const leasingPrice = ref()
 const leasingTime = ref()
+const leasingDeposit = ref()
 const buyingPrice = ref()
 const sellingPrice = ref()
 </script>
@@ -62,16 +59,24 @@ const sellingPrice = ref()
     <Card class="all-cars">
       <h2 class="accent">Add new car</h2>
       <div class="car-input" >
-          <label for="carname">Car name</label>
-          <input @focus="removeInvalid(InputType.NAME)" :class="{'invalid': invalidInput.includes(InputType.NAME)}" v-model="name" type="text" name="name" id="carname" />
-          <label for="leasingPrice">Leasing Price</label>
-          <input @focus="removeInvalid(InputType.LEASING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.LEASING_PRICE)}" v-model="leasingPrice" type="number" name="leasingPrice" id="leasingPrice" required pattern="[1-9]+"/>
-          <label for="leasingTime">Leasing Time</label>
-          <input @focus="removeInvalid(InputType.LEASING_TIME)" :class="{'invalid': invalidInput.includes(InputType.LEASING_TIME)}" v-model="leasingTime" type="number" name="leasingTime" id="leasingTime" required pattern="[1-9]+"/>
-          <label for="buying">Buying Price</label>
-          <input @focus="removeInvalid(InputType.BUYING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.BUYING_PRICE)}" v-model="buyingPrice" type="number" name="buying" id="buying" required pattern="[1-9]+"/>
-          <label for="selling">Selling Price</label>
-          <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="number" name="selling" id="selling" required pattern="[1-9]+"/>
+        <label for="carname">Car Name</label>
+        <Tooltip :placement="Placement.RIGHT" message="Name of Car"/>
+        <input @focus="removeInvalid(InputType.NAME)" :class="{'invalid': invalidInput.includes(InputType.NAME)}" v-model="name" type="text" name="name" id="carname" />
+        <label for="leasingDeposit">Leasing Deposit</label>
+        <Tooltip :placement="Placement.RIGHT" message="Leasing deposit which is normally paid once upfront"/>
+        <input @focus="removeInvalid(InputType.LEASING_DEPOSIT)" :class="{'invalid': invalidInput.includes(InputType.LEASING_DEPOSIT)}" v-model="leasingDeposit" type="number" name="leasingDeposit" id="leasingDeposit" />
+        <label for="leasingPrice">Leasing Price</label>
+        <Tooltip :placement="Placement.RIGHT" message="Leasing price per month"/>
+        <input @focus="removeInvalid(InputType.LEASING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.LEASING_PRICE)}" v-model="leasingPrice" type="number" name="leasingPrice" id="leasingPrice" />
+        <label for="leasingTime">Leasing Time</label>
+        <Tooltip :placement="Placement.RIGHT" message="Leasing Time in month"/>
+        <input @focus="removeInvalid(InputType.LEASING_TIME)" :class="{'invalid': invalidInput.includes(InputType.LEASING_TIME)}" v-model="leasingTime" type="number" name="leasingTime" id="leasingTime" />
+        <label for="buying">Buying Price</label>
+        <Tooltip :placement="Placement.RIGHT" message="Total price of car"/>
+        <input @focus="removeInvalid(InputType.BUYING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.BUYING_PRICE)}" v-model="buyingPrice" type="number" name="buying" id="buying" />
+        <label for="selling">Selling Price</label>
+        <Tooltip :placement="Placement.RIGHT" message="Estimated selling price after leasing period"/>
+        <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="number" name="selling" id="selling" />
       </div>
       <button @click="addCar" id="add-button">Add Car</button>
     </Card>
@@ -127,7 +132,7 @@ input {
 }
 .car-input {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 48% 4% 48%;
   gap: 0.5em
 }
 
