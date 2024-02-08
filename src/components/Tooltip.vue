@@ -7,7 +7,9 @@
     message: string
   }>()
   let showTooltip = ref(false);
-  function toggleTooltip() {
+  function toggleTooltip(event: Event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
     showTooltip.value = !showTooltip.value;
   }
   function disableTooltip() {
