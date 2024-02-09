@@ -3,7 +3,7 @@ import { store } from '@/store/rootStore'
 import type { Car } from '@/models/Car'
 
 const DB_NAME = 'comparison';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const DB_STORE_NAME = 'cars';
 
 let db: IDBDatabase;
@@ -20,13 +20,29 @@ export function openDb() {
   };
 
   indexDb.onupgradeneeded = (event: any) => {
+    const createIndex = (objectStore: IDBObjectStore, name: string, options: { unique: boolean }) => {
+      if (!objectStore.get(name)) {
+        objectStore.createIndex(name, name, options)
+      }
+    }
     const target = event.target;
-    const transaction = target.transaction;
-    const objectStore = transaction.objectStore(DB_STORE_NAME);
-    objectStore.createIndex("financeDeposit", "financeDeposit", { unique: false });
-    objectStore.createIndex("financeTime", "financeTime", { unique: false });
-    objectStore.createIndex("financeMonthlyPayment", "financeMonthlyPayment", { unique: false });
-    objectStore.createIndex("financeFinalPayment", "financeFinalPayment", { unique: false });
+    let objectStore;
+    if (event.newVersion != event.oldVersion && event.oldVersion != 0) {
+      const transaction = target.transaction;
+      objectStore = transaction.objectStore(DB_STORE_NAME);
+    } else {
+      objectStore = target.result.createObjectStore(DB_STORE_NAME, { keyPath: 'id' })
+    }
+    createIndex(objectStore, "id", { unique: true });
+    createIndex(objectStore, "name", { unique: false });
+    createIndex(objectStore, "buyingPrice", { unique: false });
+    createIndex(objectStore, "sellingPrice", { unique: false });
+    createIndex(objectStore, "leasingPrice", { unique: false });
+    createIndex(objectStore, "leasingDeposit", { unique: false });
+    createIndex(objectStore, "financeDeposit", { unique: false });
+    createIndex(objectStore, "financeTime", { unique: false });
+    createIndex(objectStore, "financeMonthlyPayment", { unique: false });
+    createIndex(objectStore, "financeFinalPayment", { unique: false });
     objectStore.transaction.oncomplete = () => {
       console.log("Complete upgrade")
     };
