@@ -3,7 +3,7 @@ import { store } from '@/store/rootStore'
 import type { Car } from '@/models/Car'
 
 const DB_NAME = 'comparison';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const DB_STORE_NAME = 'cars';
 
 let db: IDBDatabase;
@@ -23,14 +23,24 @@ export function openDb() {
     const target = event.target;
     const transaction = target.transaction;
     const objectStore = transaction.objectStore(DB_STORE_NAME);
-    objectStore.createIndex("leasingDeposit", "leasingDeposit", { unique: false });
+    objectStore.createIndex("financeDeposit", "financeDeposit", { unique: false });
+    objectStore.createIndex("financeTime", "financeTime", { unique: false });
+    objectStore.createIndex("financeMonthlyPayment", "financeMonthlyPayment", { unique: false });
+    objectStore.createIndex("financeFinalPayment", "financeFinalPayment", { unique: false });
     objectStore.transaction.oncomplete = () => {
       console.log("Complete upgrade")
     };
   };
 }
 function addCarToArr(car: CarData) {
-  store.addToCars({ ...car, leasingTotal: -car.leasingPrice, buyingTotal: car.sellingPrice - car.buyingPrice});
+  store.addToCars(
+    {
+      ...car,
+      leasingTotal: car.leasingPrice,
+      buyingTotal: car.buyingPrice - car.sellingPrice,
+      financeTotal: (car.financeDeposit + (car.financeTime * car.financeMonthlyPayment) + car.financeFinalPayment) - car.buyingPrice || 0,
+    }
+  );
 }
 
 export function deleteCarFromStorage(car: Car) {
@@ -58,7 +68,6 @@ export function addCarToStorage(car: CarData) {
   req.onerror = function(event: any) {
     console.error("addCar error", event.target.error);
   };
-  console.log(car);
   addCarToArr(car)
 }
 

@@ -19,7 +19,22 @@ function addCar() {
   checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE)
   checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE);
   checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT);
-  const car: CarData = { id: crypto.randomUUID(), name: name.value, leasingDeposit: leasingDeposit.value, buyingPrice: buyingPrice.value, leasingPrice: leasingTime.value * leasingPrice.value, sellingPrice: sellingPrice.value }
+  checkIfInvalidNumber(financeDeposit, InputType.FINANCE_DEPOSIT);
+  checkIfInvalidNumber(financeTime, InputType.FINANCE_TIME);
+  checkIfInvalidNumber(financeMonthlyPayment, InputType.FINANCE_MONTHLY_PAYMENT);
+  checkIfInvalidNumber(financeFinalPayment, InputType.FINANCE_FINAL_PAYMENT);
+  const car: CarData = {
+    id: crypto.randomUUID(),
+    name: name.value,
+    leasingDeposit: leasingDeposit.value,
+    buyingPrice: buyingPrice.value,
+    leasingPrice: leasingTime.value * leasingPrice.value,
+    sellingPrice: sellingPrice.value,
+    financeDeposit: financeDeposit.value,
+    financeTime: financeTime.value,
+    financeMonthlyPayment: financeMonthlyPayment.value,
+    financeFinalPayment: financeFinalPayment.value,
+  }
   addCarToStorage(car)
 }
 
@@ -40,7 +55,11 @@ enum InputType {
   LEASING_TIME = 'leasing time',
   BUYING_PRICE = 'buying price',
   SELLING_PRICE = 'selling price',
-  LEASING_DEPOSIT = 'leasing deposit'
+  LEASING_DEPOSIT = 'leasing deposit',
+  FINANCE_DEPOSIT = 'finance deposit',
+  FINANCE_TIME = 'finance deposit',
+  FINANCE_MONTHLY_PAYMENT = 'finance payment',
+  FINANCE_FINAL_PAYMENT = 'finance payment',
 }
 
 function removeInvalid(type: InputType) {
@@ -53,6 +72,10 @@ const leasingTime = ref()
 const leasingDeposit = ref()
 const buyingPrice = ref()
 const sellingPrice = ref()
+const financeDeposit = ref()
+const financeTime = ref()
+const financeMonthlyPayment = ref()
+const financeFinalPayment = ref()
 </script>
 
 <template>
@@ -77,6 +100,18 @@ const sellingPrice = ref()
         <label for="selling">Selling Price</label>
         <Tooltip :placement="Placement.RIGHT" message="Estimated selling price after leasing period"/>
         <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="number" name="selling" id="selling" />
+        <label for="finance-deposit">Finance Deposit</label>
+        <Tooltip :placement="Placement.RIGHT" message="Initial deposit for financing"/>
+        <input @focus="removeInvalid(InputType.FINANCE_DEPOSIT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_DEPOSIT)}" v-model="financeDeposit" type="number" name="finance-deposit" id="finance-deposit" />
+        <label for="finance-time">Finance Time</label>
+        <Tooltip :placement="Placement.RIGHT" message="Time in month for finance option"/>
+        <input @focus="removeInvalid(InputType.FINANCE_TIME)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_TIME)}" v-model="financeTime" type="number" name="finance-time" id="finance-time" />
+        <label for="finance-monthly-payment">Finance Rate</label>
+        <Tooltip :placement="Placement.RIGHT" message="Rate per month for finance option"/>
+        <input @focus="removeInvalid(InputType.FINANCE_MONTHLY_PAYMENT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_MONTHLY_PAYMENT)}" v-model="financeMonthlyPayment" type="number" name="finance-monthly-payment" id="finance-monthly-payment" />
+        <label for="finance-final-payment">End Payment</label>
+        <Tooltip :placement="Placement.RIGHT" message="Payment at the end of the finance option"/>
+        <input @focus="removeInvalid(InputType.FINANCE_FINAL_PAYMENT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_FINAL_PAYMENT)}" v-model="financeFinalPayment" type="number" name="finance-final-payment" id="finance-final-payment" />
       </div>
       <button @click="addCar" id="add-button">Add Car</button>
     </Card>

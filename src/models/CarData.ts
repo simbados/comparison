@@ -5,4 +5,8 @@ export interface CarData {
   leasingPrice: number;
   buyingPrice: number;
   sellingPrice: number;
+  financeDeposit: number,
+  financeTime: number,
+  financeMonthlyPayment: number,
+  financeFinalPayment: number,
 }
