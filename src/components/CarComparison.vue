@@ -3,7 +3,7 @@ import Card from '@/components/Card.vue'
 </script>
 
 <template>
-  <Card class="comparison-card">
+  <Card>
     <h2>Compare</h2>
     <table class="comparison-table">
       <thead>
@@ -43,10 +43,6 @@ import Card from '@/components/Card.vue'
 </template>
 
 <style scoped>
-.comparison-card {
-  width: 100%;
-}
-
 .comparison-table {
   width: 100%;
   display: flex;
@@ -60,13 +56,37 @@ import Card from '@/components/Card.vue'
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
 }
-
 .header-row {
   font-weight: 700;
   font-size: 1.5rem;
   border-bottom: 0.15rem solid var(--accent-light);
-  padding-bottom: 0.15rem;
   margin-bottom: 0.5rem;
+}
+
+.total-cost-row {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 728px) {
+  .comparison-list {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+
+  .header-row {
+    font-size: 1.15rem;
+  }
+
+  .table-column {
+    min-width: 95%;
+    scroll-snap-align: start;
+  }
+
+  .total-cost-row {
+    font-size: 1.25rem;
+  }
 }
 
 .table-column {
@@ -77,6 +97,7 @@ import Card from '@/components/Card.vue'
   padding: 1rem;
   position: relative;
   border: 0.25rem solid transparent;
+  margin: 1rem 0;
 }
 
 .property-column {
@@ -97,10 +118,5 @@ import Card from '@/components/Card.vue'
 
 .best-option {
   border: 0.25rem solid var(--accent);
-}
-
-.total-cost-row {
-  font-size: 1.75rem;
-  font-weight: 600;
 }
 </style>

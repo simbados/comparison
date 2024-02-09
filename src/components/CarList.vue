@@ -71,7 +71,6 @@ function deleteCar(car: Car) {
 
 <style scoped>
 .car-list {
-  width: 100%;
   padding: 1em;
   overflow-x: scroll;
 }
