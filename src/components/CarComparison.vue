@@ -1,5 +1,35 @@
 <script setup lang="ts">
-import Card from '@/components/Card.vue'
+import Card from '@/components/Card.vue';
+import { computed, onMounted, type Ref, ref, watch } from 'vue';
+import { store } from '@/store/rootStore';
+import type { Car } from '@/models/Car';
+
+enum CarOptions {
+  LEASING,
+  BUYING,
+  FINANCING
+}
+let currentCar: Ref<Car | undefined> = ref();
+onMounted(() => {});
+
+const bestOption: Ref<CarOptions | undefined> = ref();
+
+watch(store.allCars, () => {
+  if (!currentCar.value) {
+    currentCar.value = store.allCars[0];
+    bestOption.value = calculateBestOption(currentCar.value);
+  }
+});
+
+function calculateBestOption(car: Car) {
+  if (car.leasingTotal < car.financeTotal && car.leasingTotal < car.buyingTotal) {
+    return CarOptions.LEASING;
+  } else if (car.financeTotal < car.buyingTotal) {
+    return CarOptions.FINANCING;
+  } else {
+    return CarOptions.BUYING;
+  }
+}
 </script>
 
 <template>
@@ -16,26 +46,26 @@ import Card from '@/components/Card.vue'
         </tr>
       </thead>
       <tbody class="comparison-list">
-        <tr class="table-column best-option">
+        <tr :class="{ 'best-option': bestOption === CarOptions.LEASING }" class="table-column">
           <td class="header-row">Leasing</td>
-          <td>10.000 €</td>
-          <td>499 €</td>
+          <td>{{ currentCar?.leasingDeposit ?? 0 }}</td>
+          <td>{{ currentCar?.leasingPrice ?? 0 }}</td>
           <td>0 €</td>
-          <td class="total-cost-row">34.000 €</td>
+          <td class="total-cost-row">{{ currentCar?.leasingTotal ?? 0 }}</td>
         </tr>
-        <tr class="table-column">
+        <tr class="table-column" :class="{ 'best-option': bestOption === CarOptions.BUYING }">
           <td class="header-row">Buying</td>
-          <td>58.000 €</td>
+          <td>{{ currentCar?.buyingPrice ?? 0 }}</td>
           <td>0 €</td>
-          <td>-24.000 €</td>
-          <td class="total-cost-row">34.000 €</td>
+          <td>0 €</td>
+          <td class="total-cost-row">{{ currentCar?.buyingTotal ?? 0 }}</td>
         </tr>
-        <tr class="table-column">
+        <tr class="table-column" :class="{ 'best-option': bestOption === CarOptions.FINANCING }">
           <td class="header-row">Finance</td>
-          <td>10.000 €</td>
-          <td>369 €</td>
-          <td>23.000 €</td>
-          <td class="total-cost-row">22.248 €</td>
+          <td>{{ currentCar?.financeDeposit ?? 0 }}</td>
+          <td>{{ currentCar?.financeMonthlyPayment ?? 0 }}</td>
+          <td>{{ currentCar?.financeFinalPayment ?? 0 }}</td>
+          <td class="total-cost-row">{{ currentCar?.financeTotal ?? 0 }}</td>
         </tr>
       </tbody>
     </table>

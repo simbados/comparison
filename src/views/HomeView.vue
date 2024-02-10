@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AddCars from '@/components/AddCars.vue'
-import CarList from '@/components/CarList.vue'
-import CarComparison from '@/components/CarComparison.vue'
+import AddCars from '@/components/AddCars.vue';
+import CarList from '@/components/CarList.vue';
+import CarComparison from '@/components/CarComparison.vue';
 </script>
 <template>
   <div class="comparison">
-    <h1>Welcome to <span class="text-gradient">Carcom</span></h1>
+    <h1 class="text-gradient">Welcome to Carcom</h1>
     <CarComparison />
     <AddCars />
     <CarList />
@@ -20,7 +20,20 @@ h1 {
   margin-bottom: 1em;
 }
 .text-gradient {
-  background-image: var(--accent-gradient);
+  --gradient-1: var(--accent);
+  --gradient-2: #664d8d;
+  --gradient-3: #3d8398;
+  background-image: linear-gradient(
+    150deg,
+    var(--gradient-1) 0%,
+    var(--gradient-2) 20%,
+    var(--gradient-3) 30%,
+    var(--gradient-3) 45%,
+    var(--gradient-2) 60%,
+    var(--gradient-1) 70%,
+    var(--gradient-2) 90%,
+    var(--gradient-3) 95%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

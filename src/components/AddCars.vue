@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { type Ref, ref } from 'vue'
-import Card from '@/components/Card.vue'
-import type { CarData } from '@/models/CarData'
-import { addCarToStorage } from '@/indexDb/indexDbStorage'
-import { store } from '@/store/rootStore'
-import Tooltip from '@/components/Tooltip.vue'
-import { Placement } from '@/models/Placement'
+import { type Ref, ref } from 'vue';
+import Card from '@/components/Card.vue';
+import type { CarData } from '@/models/CarData';
+import { addCarToStorage } from '@/indexDb/indexDbStorage';
+import { store } from '@/store/rootStore';
+import Tooltip from '@/components/Tooltip.vue';
+import { Placement } from '@/models/Placement';
 
 function addCar() {
-  invalidInput.value = []
+  invalidInput.value = [];
   if (!name.value || typeof name.value !== 'string') {
-    invalidInput.value.push(InputType.NAME)
-    store.setErrorMessage('Please fill out the car name')
-    return
+    invalidInput.value.push(InputType.NAME);
+    store.setErrorMessage('Please fill out the car name');
+    return;
   }
-  checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE)
-  checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME)
-  checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE)
-  checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE)
-  checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT)
-  checkIfInvalidNumber(financeDeposit, InputType.FINANCE_DEPOSIT)
-  checkIfInvalidNumber(financeTime, InputType.FINANCE_TIME)
-  checkIfInvalidNumber(financeMonthlyPayment, InputType.FINANCE_MONTHLY_PAYMENT)
-  checkIfInvalidNumber(financeFinalPayment, InputType.FINANCE_FINAL_PAYMENT)
+  checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE);
+  checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME);
+  checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE);
+  checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE);
+  checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT);
+  checkIfInvalidNumber(financeDeposit, InputType.FINANCE_DEPOSIT);
+  checkIfInvalidNumber(financeTime, InputType.FINANCE_TIME);
+  checkIfInvalidNumber(financeMonthlyPayment, InputType.FINANCE_MONTHLY_PAYMENT);
+  checkIfInvalidNumber(financeFinalPayment, InputType.FINANCE_FINAL_PAYMENT);
   const car: CarData = {
     id: crypto.randomUUID(),
     name: name.value,
@@ -34,20 +34,20 @@ function addCar() {
     financeTime: financeTime.value,
     financeMonthlyPayment: financeMonthlyPayment.value,
     financeFinalPayment: financeFinalPayment.value
-  }
-  addCarToStorage(car)
+  };
+  addCarToStorage(car);
 }
 
 function checkIfInvalidNumber(value: Ref<number>, type: InputType) {
-  const invalid = value.value == null || typeof parseInt(name.value) !== 'number'
+  const invalid = value.value == null || typeof parseInt(name.value) !== 'number';
   if (invalid) {
-    store.setErrorMessage('Please fill out the ' + type.toString())
-    invalidInput.value.push(type)
+    store.setErrorMessage('Please fill out the ' + type.toString());
+    invalidInput.value.push(type);
   }
-  return invalid
+  return invalid;
 }
 
-const invalidInput = ref([] as InputType[])
+const invalidInput = ref([] as InputType[]);
 
 enum InputType {
   NAME = 'Car Name',
@@ -63,19 +63,19 @@ enum InputType {
 }
 
 function removeInvalid(type: InputType) {
-  invalidInput.value = invalidInput.value.filter((t) => t !== type)
+  invalidInput.value = invalidInput.value.filter((t) => t !== type);
 }
 
-const name = ref()
-const leasingPrice = ref()
-const leasingTime = ref()
-const leasingDeposit = ref()
-const buyingPrice = ref()
-const sellingPrice = ref()
-const financeDeposit = ref()
-const financeTime = ref()
-const financeMonthlyPayment = ref()
-const financeFinalPayment = ref()
+const name = ref();
+const leasingPrice = ref();
+const leasingTime = ref();
+const leasingDeposit = ref();
+const buyingPrice = ref();
+const sellingPrice = ref();
+const financeDeposit = ref();
+const financeTime = ref();
+const financeMonthlyPayment = ref();
+const financeFinalPayment = ref();
 </script>
 
 <template>
@@ -266,10 +266,9 @@ button {
   transition: transform 0.2s;
   width: 50%;
   padding: 0.75em;
-  align-self: center;
   color: var(--accent-dark);
   margin-top: 1.5rem;
-  align-self: flex-end;
+  align-self: center;
 }
 
 button:hover {
@@ -287,10 +286,6 @@ input {
   display: block;
   width: 100%;
 }
-.accent {
-  color: #ceccfd;
-  font-weight: 700;
-}
 
 label {
   display: inline-block;
@@ -300,9 +295,6 @@ label {
 label span {
   font-weight: bold;
   margin-right: 0.5rem;
-}
-.input-element {
-  widows: 100%;
 }
 
 .input-element:not(:last-child) {

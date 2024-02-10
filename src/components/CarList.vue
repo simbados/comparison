@@ -38,8 +38,8 @@ function deleteCar(car: Car) {
           <td>{{ car.name }}</td>
           <td>{{ car.leasingDeposit }}</td>
           <td>{{ car.leasingPrice }}</td>
-          <td>{{ car.buyingPrice }}</td>
           <td>{{ car.sellingPrice }}</td>
+          <td>{{ car.buyingPrice }}</td>
           <td>{{ car.financeDeposit }}</td>
           <td>{{ car.financeTime }}</td>
           <td>{{ car.financeMonthlyPayment }}</td>
