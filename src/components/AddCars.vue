@@ -8,21 +8,21 @@ import Tooltip from '@/components/Tooltip.vue'
 import { Placement } from '@/models/Placement'
 
 function addCar() {
-  invalidInput.value = [];
+  invalidInput.value = []
   if (!name.value || typeof name.value !== 'string') {
     invalidInput.value.push(InputType.NAME)
-    store.setErrorMessage("Please fill out the car name");
-    return;
+    store.setErrorMessage('Please fill out the car name')
+    return
   }
-  checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE);
-  checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME);
+  checkIfInvalidNumber(leasingPrice, InputType.LEASING_PRICE)
+  checkIfInvalidNumber(leasingTime, InputType.LEASING_TIME)
   checkIfInvalidNumber(buyingPrice, InputType.BUYING_PRICE)
-  checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE);
-  checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT);
-  checkIfInvalidNumber(financeDeposit, InputType.FINANCE_DEPOSIT);
-  checkIfInvalidNumber(financeTime, InputType.FINANCE_TIME);
-  checkIfInvalidNumber(financeMonthlyPayment, InputType.FINANCE_MONTHLY_PAYMENT);
-  checkIfInvalidNumber(financeFinalPayment, InputType.FINANCE_FINAL_PAYMENT);
+  checkIfInvalidNumber(sellingPrice, InputType.SELLING_PRICE)
+  checkIfInvalidNumber(leasingDeposit, InputType.LEASING_DEPOSIT)
+  checkIfInvalidNumber(financeDeposit, InputType.FINANCE_DEPOSIT)
+  checkIfInvalidNumber(financeTime, InputType.FINANCE_TIME)
+  checkIfInvalidNumber(financeMonthlyPayment, InputType.FINANCE_MONTHLY_PAYMENT)
+  checkIfInvalidNumber(financeFinalPayment, InputType.FINANCE_FINAL_PAYMENT)
   const car: CarData = {
     id: crypto.randomUUID(),
     name: name.value,
@@ -33,18 +33,18 @@ function addCar() {
     financeDeposit: financeDeposit.value,
     financeTime: financeTime.value,
     financeMonthlyPayment: financeMonthlyPayment.value,
-    financeFinalPayment: financeFinalPayment.value,
+    financeFinalPayment: financeFinalPayment.value
   }
   addCarToStorage(car)
 }
 
 function checkIfInvalidNumber(value: Ref<number>, type: InputType) {
-  const invalid = (value.value == null) || typeof parseInt(name.value ) !== 'number';
+  const invalid = value.value == null || typeof parseInt(name.value) !== 'number'
   if (invalid) {
-    store.setErrorMessage("Please fill out the " + type.toString());
+    store.setErrorMessage('Please fill out the ' + type.toString())
     invalidInput.value.push(type)
   }
-  return invalid;
+  return invalid
 }
 
 const invalidInput = ref([] as InputType[])
@@ -59,11 +59,11 @@ enum InputType {
   FINANCE_DEPOSIT = 'finance deposit',
   FINANCE_TIME = 'finance deposit',
   FINANCE_MONTHLY_PAYMENT = 'finance payment',
-  FINANCE_FINAL_PAYMENT = 'finance payment',
+  FINANCE_FINAL_PAYMENT = 'finance payment'
 }
 
 function removeInvalid(type: InputType) {
-  invalidInput.value = invalidInput.value.filter(t => t !== type)
+  invalidInput.value = invalidInput.value.filter((t) => t !== type)
 }
 
 const name = ref()
@@ -79,56 +79,184 @@ const financeFinalPayment = ref()
 </script>
 
 <template>
-    <Card class="all-cars">
-      <h2 class="accent">Add new car</h2>
-      <div class="car-input" >
-        <label for="carname">Car Name</label>
-        <Tooltip :placement="Placement.RIGHT" message="Name of Car"/>
-        <input @focus="removeInvalid(InputType.NAME)" :class="{'invalid': invalidInput.includes(InputType.NAME)}" v-model="name" type="text" name="name" id="carname" />
-        <label for="leasingDeposit">Leasing Deposit</label>
-        <Tooltip :placement="Placement.RIGHT" message="Leasing deposit which is normally paid once upfront"/>
-        <input @focus="removeInvalid(InputType.LEASING_DEPOSIT)" :class="{'invalid': invalidInput.includes(InputType.LEASING_DEPOSIT)}" v-model="leasingDeposit" type="number" name="leasingDeposit" id="leasingDeposit" />
-        <label for="leasingPrice">Leasing Price</label>
-        <Tooltip :placement="Placement.RIGHT" message="Leasing price per month"/>
-        <input @focus="removeInvalid(InputType.LEASING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.LEASING_PRICE)}" v-model="leasingPrice" type="number" name="leasingPrice" id="leasingPrice" />
-        <label for="leasingTime">Leasing Time</label>
-        <Tooltip :placement="Placement.RIGHT" message="Leasing Time in month"/>
-        <input @focus="removeInvalid(InputType.LEASING_TIME)" :class="{'invalid': invalidInput.includes(InputType.LEASING_TIME)}" v-model="leasingTime" type="number" name="leasingTime" id="leasingTime" />
-        <label for="buying">Buying Price</label>
-        <Tooltip :placement="Placement.RIGHT" message="Total price of car"/>
-        <input @focus="removeInvalid(InputType.BUYING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.BUYING_PRICE)}" v-model="buyingPrice" type="number" name="buying" id="buying" />
-        <label for="selling">Selling Price</label>
-        <Tooltip :placement="Placement.RIGHT" message="Estimated selling price after leasing period"/>
-        <input @focus="removeInvalid(InputType.SELLING_PRICE)" :class="{'invalid': invalidInput.includes(InputType.SELLING_PRICE)}" v-model="sellingPrice" type="number" name="selling" id="selling" />
-        <label for="finance-deposit">Finance Deposit</label>
-        <Tooltip :placement="Placement.RIGHT" message="Initial deposit for financing"/>
-        <input @focus="removeInvalid(InputType.FINANCE_DEPOSIT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_DEPOSIT)}" v-model="financeDeposit" type="number" name="finance-deposit" id="finance-deposit" />
-        <label for="finance-time">Finance Time</label>
-        <Tooltip :placement="Placement.RIGHT" message="Time in month for finance option"/>
-        <input @focus="removeInvalid(InputType.FINANCE_TIME)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_TIME)}" v-model="financeTime" type="number" name="finance-time" id="finance-time" />
-        <label for="finance-monthly-payment">Finance Rate</label>
-        <Tooltip :placement="Placement.RIGHT" message="Rate per month for finance option"/>
-        <input @focus="removeInvalid(InputType.FINANCE_MONTHLY_PAYMENT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_MONTHLY_PAYMENT)}" v-model="financeMonthlyPayment" type="number" name="finance-monthly-payment" id="finance-monthly-payment" />
-        <label for="finance-final-payment">End Payment</label>
-        <Tooltip :placement="Placement.RIGHT" message="Payment at the end of the finance option"/>
-        <input @focus="removeInvalid(InputType.FINANCE_FINAL_PAYMENT)" :class="{'invalid': invalidInput.includes(InputType.FINANCE_FINAL_PAYMENT)}" v-model="financeFinalPayment" type="number" name="finance-final-payment" id="finance-final-payment" />
+  <Card class="all-cars">
+    <h2>Add new car</h2>
+    <div class="car-input">
+      <div class="input-element">
+        <label for="carname"
+          ><span>Car Name</span> <Tooltip :placement="Placement.RIGHT" message="Name of Car"
+        /></label>
+
+        <input
+          @focus="removeInvalid(InputType.NAME)"
+          :class="{ invalid: invalidInput.includes(InputType.NAME) }"
+          v-model="name"
+          type="text"
+          name="name"
+          id="carname"
+        />
       </div>
-      <button @click="addCar" id="add-button">Add Car</button>
-    </Card>
+      <div class="input-element">
+        <label for="leasingDeposit"
+          ><span>Leasing Deposit</span
+          ><Tooltip
+            :placement="Placement.RIGHT"
+            message="Leasing deposit which is normally paid once upfront"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.LEASING_DEPOSIT)"
+          :class="{ invalid: invalidInput.includes(InputType.LEASING_DEPOSIT) }"
+          v-model="leasingDeposit"
+          type="number"
+          name="leasingDeposit"
+          id="leasingDeposit"
+        />
+      </div>
+      <div class="input-element">
+        <label for="leasingPrice"
+          ><span>Leasing Price</span
+          ><Tooltip :placement="Placement.RIGHT" message="Leasing price per month"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.LEASING_PRICE)"
+          :class="{ invalid: invalidInput.includes(InputType.LEASING_PRICE) }"
+          v-model="leasingPrice"
+          type="number"
+          name="leasingPrice"
+          id="leasingPrice"
+        />
+      </div>
+      <div class="input-element">
+        <label for="leasingTime"
+          ><span>Leasing Time</span
+          ><Tooltip :placement="Placement.RIGHT" message="Leasing Time in month"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.LEASING_TIME)"
+          :class="{ invalid: invalidInput.includes(InputType.LEASING_TIME) }"
+          v-model="leasingTime"
+          type="number"
+          name="leasingTime"
+          id="leasingTime"
+        />
+      </div>
+      <div class="input-element">
+        <label for="buying"
+          ><span>Buying Price</span
+          ><Tooltip :placement="Placement.RIGHT" message="Total price of car"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.BUYING_PRICE)"
+          :class="{ invalid: invalidInput.includes(InputType.BUYING_PRICE) }"
+          v-model="buyingPrice"
+          type="number"
+          name="buying"
+          id="buying"
+        />
+      </div>
+      <div class="input-element">
+        <label for="selling"
+          ><span>Selling Price</span
+          ><Tooltip
+            :placement="Placement.RIGHT"
+            message="Estimated selling price after leasing period"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.SELLING_PRICE)"
+          :class="{ invalid: invalidInput.includes(InputType.SELLING_PRICE) }"
+          v-model="sellingPrice"
+          type="number"
+          name="selling"
+          id="selling"
+        />
+      </div>
+      <div class="input-element">
+        <label for="finance-deposit"
+          ><span>Finance Deposit</span
+          ><Tooltip :placement="Placement.RIGHT" message="Initial deposit for financing"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.FINANCE_DEPOSIT)"
+          :class="{ invalid: invalidInput.includes(InputType.FINANCE_DEPOSIT) }"
+          v-model="financeDeposit"
+          type="number"
+          name="finance-deposit"
+          id="finance-deposit"
+        />
+      </div>
+      <div class="input-element">
+        <label for="finance-time"
+          ><span>Finance Time</span
+          ><Tooltip :placement="Placement.RIGHT" message="Time in month for finance option"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.FINANCE_TIME)"
+          :class="{ invalid: invalidInput.includes(InputType.FINANCE_TIME) }"
+          v-model="financeTime"
+          type="number"
+          name="finance-time"
+          id="finance-time"
+        />
+      </div>
+      <div class="input-element">
+        <label for="finance-monthly-payment"
+          ><span>Finance Rate</span
+          ><Tooltip :placement="Placement.RIGHT" message="Rate per month for finance option"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.FINANCE_MONTHLY_PAYMENT)"
+          :class="{ invalid: invalidInput.includes(InputType.FINANCE_MONTHLY_PAYMENT) }"
+          v-model="financeMonthlyPayment"
+          type="number"
+          name="finance-monthly-payment"
+          id="finance-monthly-payment"
+        />
+      </div>
+      <div class="input-element">
+        <label for="finance-final-payment"
+          ><span>End Payment</span
+          ><Tooltip :placement="Placement.RIGHT" message="Payment at the end of the finance option"
+        /></label>
+        <input
+          @focus="removeInvalid(InputType.FINANCE_FINAL_PAYMENT)"
+          :class="{ invalid: invalidInput.includes(InputType.FINANCE_FINAL_PAYMENT) }"
+          v-model="financeFinalPayment"
+          type="number"
+          name="finance-final-payment"
+          id="finance-final-payment"
+        />
+      </div>
+    </div>
+    <button @click="addCar" id="add-button">Add Car</button>
+  </Card>
 </template>
 
 <style scoped>
-h2 {
-  align-self: center;
+.all-cars {
+  display: flex;
+  flex-direction: column;
 }
-h2, caption {
-  font-size: 2em;
+
+.car-input {
+  --columns: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: 2rem;
 }
+
+@media screen and (max-width: 728px) {
+  .car-input {
+    --columns: 1;
+    gap: 0.5rem;
+  }
+}
+
 .invalid {
   box-shadow: inset 0 0 4px 0 #770404;
 }
+
 button {
-  background-color: #4a5260;
+  background-color: var(--accent-light);
   cursor: pointer;
   outline: none;
   border: solid 1px var(--accent-dark);
@@ -136,11 +264,14 @@ button {
   font-weight: 700;
   box-shadow: inset 0 0 0.5em var(--accent-dark);
   transition: transform 0.2s;
-  width: 10em;
-  padding: 0.5em;
+  width: 50%;
+  padding: 0.75em;
   align-self: center;
-  color: var(--vt-c-text-dark-2);
+  color: var(--accent-dark);
+  margin-top: 1.5rem;
+  align-self: flex-end;
 }
+
 button:hover {
   transform: translateY(1px);
 }
@@ -148,27 +279,34 @@ input {
   background-color: #4a5260;
   color: var(--vt-c-text-dark-2);
   border: 1px var(--accent-light);
-  border-radius: 1px;
-  padding: 0.3em;
+  border-radius: 4px;
+  padding: 0.5em;
   outline: none;
-  margin: 0 0.2em;
-  max-width: 10em;
   font-weight: 700;
   font-size: 16px;
+  display: block;
+  width: 100%;
 }
 .accent {
   color: #ceccfd;
   font-weight: 700;
 }
-.all-cars {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+
+label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
 }
-.car-input {
-  display: grid;
-  grid-template-columns: 48% 4% 48%;
-  gap: 0.5em
+
+label span {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.input-element {
+  widows: 100%;
+}
+
+.input-element:not(:last-child) {
+  margin-bottom: 1rem;
 }
 
 @media screen and (orientation: landscape) and (max-height: 728px) {

@@ -12,7 +12,7 @@
   background-color: #23262d;
   border-radius: 7px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  width: fit-content;
+  width: 100%;
 }
 @media screen and (max-height: 728px), (max-width: 728px) {
   .card {

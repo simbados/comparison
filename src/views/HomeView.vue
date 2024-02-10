@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import AddCars from '@/components/AddCars.vue'
 import CarList from '@/components/CarList.vue'
+import CarComparison from '@/components/CarComparison.vue'
 </script>
 <template>
   <div class="comparison">
     <h1>Welcome to <span class="text-gradient">Carcom</span></h1>
+    <CarComparison />
     <AddCars />
     <CarList />
   </div>
