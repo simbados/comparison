@@ -86,7 +86,6 @@ const financeFinalPayment = ref();
         <label for="carname"
           ><span>Car Name</span> <Tooltip :placement="Placement.RIGHT" message="Name of Car"
         /></label>
-
         <input
           @focus="removeInvalid(InputType.NAME)"
           :class="{ invalid: invalidInput.includes(InputType.NAME) }"
@@ -235,6 +234,10 @@ const financeFinalPayment = ref();
 .all-cars {
   display: flex;
   flex-direction: column;
+}
+
+h2 {
+  padding-bottom: 1em;
 }
 
 .car-input {

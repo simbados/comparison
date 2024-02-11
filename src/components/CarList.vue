@@ -14,7 +14,7 @@ function deleteCar(car: Car) {
   <Card class="car-list">
     <table>
       <caption>
-        All cars
+        <h2>All cars</h2>
       </caption>
       <thead>
         <tr>
@@ -74,6 +74,12 @@ function deleteCar(car: Car) {
   padding: 1em;
   overflow-x: scroll;
 }
+caption {
+  font-size: 1.25em;
+  text-align: start;
+  padding-inline-start: 0.8em;
+}
+
 tbody tr:nth-child(odd) {
   background-color: #2f323d;
 }

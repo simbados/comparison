@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue';
-import { type Ref, ref, watch } from 'vue';
+import { computed, type Ref, ref, watch } from 'vue';
 import { store } from '@/store/rootStore';
 import type { Car } from '@/models/Car';
 
@@ -9,31 +9,44 @@ enum CarOptions {
   BUYING,
   FINANCING
 }
-let currentCar: Ref<Car | undefined> = ref();
-
-const bestOption: Ref<CarOptions | undefined> = ref();
-
+// let currentCar: Ref<Car | undefined> = ref();
+const currentCarId: Ref<string | undefined> = ref('');
 watch(store.allCars, () => {
   if (!currentCar.value) {
-    currentCar.value = store.allCars[0];
-    bestOption.value = calculateBestOption(currentCar.value);
+    currentCarId.value = store.allCars[0].id;
   }
 });
 
-function calculateBestOption(car: Car) {
-  if (car.leasingTotal < car.financeTotal && car.leasingTotal < car.buyingTotal) {
-    return CarOptions.LEASING;
-  } else if (car.financeTotal < car.buyingTotal) {
-    return CarOptions.FINANCING;
-  } else {
-    return CarOptions.BUYING;
+const currentCar: Ref<Car | undefined> = computed(() => {
+  return store.allCars.find((c) => c.id === currentCarId.value);
+});
+
+const bestOption: Ref<CarOptions | undefined> = computed(() => {
+  const car = currentCar.value;
+  if (car != undefined) {
+    if (car.leasingTotal < car.financeTotal && car.leasingTotal < car.buyingTotal) {
+      return CarOptions.LEASING;
+    } else if (car.financeTotal < car.buyingTotal) {
+      return CarOptions.FINANCING;
+    } else {
+      return CarOptions.BUYING;
+    }
   }
-}
+  return CarOptions.BUYING;
+});
 </script>
 
 <template>
   <Card>
-    <h2>Compare</h2>
+    <div class="header">
+      <h2>Compare</h2>
+      <select v-model="currentCarId" name="car" id="car-select">
+        <option disabled value="">Please choose a car</option>
+        <option v-for="car of store.allCars" :key="car.id" :value="car.id">
+          {{ car.name }}
+        </option>
+      </select>
+    </div>
     <table class="comparison-table">
       <thead>
         <tr class="table-column property-column">
@@ -78,6 +91,24 @@ function calculateBestOption(car: Car) {
   gap: 1rem;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+}
+
+select {
+  margin-left: auto;
+  align-self: center;
+  font-size: 1em;
+  font-weight: 700;
+  padding: 0.1em 0.2em;
+  cursor: pointer;
+  height: fit-content;
+  background-color: var(--accent-light);
+  border: 2px solid var(--accent);
+  border-radius: 5px;
+}
+
 .comparison-list {
   flex: 1;
   width: 100%;
@@ -102,6 +133,15 @@ function calculateBestOption(car: Car) {
     display: flex;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  select {
+    margin-inline-start: 0;
   }
 
   .header-row {
