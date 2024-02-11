@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Card from '@/components/Card.vue'
-import { store } from '@/store/rootStore'
-import type { Car } from '@/models/Car'
-import { deleteCarFromStorage } from '@/indexDb/indexDbStorage'
+import Card from '@/components/Card.vue';
+import { store } from '@/store/rootStore';
+import type { Car } from '@/models/Car';
+import { deleteCarFromStorage } from '@/indexDb/indexDbStorage';
 
 function deleteCar(car: Car) {
-  store.removeCar(car)
-  deleteCarFromStorage(car)
+  store.removeCar(car);
+  deleteCarFromStorage(car);
 }
 </script>
 
@@ -14,7 +14,7 @@ function deleteCar(car: Car) {
   <Card class="car-list">
     <table>
       <caption>
-        Comparison Table
+        All cars
       </caption>
       <thead>
         <tr>
@@ -90,5 +90,8 @@ th,
 td {
   padding-inline: 0.8em;
   text-align: start;
+}
+th {
+  border-bottom: 1px solid var(--accent-light);
 }
 </style>

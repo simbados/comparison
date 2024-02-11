@@ -5,7 +5,7 @@ import CarComparison from '@/components/CarComparison.vue';
 </script>
 <template>
   <div class="comparison">
-    <h1 class="text-gradient">Welcome to Carcom</h1>
+    <h1>Welcome to <span class="text-gradient">Carcom</span></h1>
     <CarComparison />
     <AddCars />
     <CarList />
@@ -24,7 +24,7 @@ h1 {
   --gradient-2: #664d8d;
   --gradient-3: #3d8398;
   background-image: linear-gradient(
-    150deg,
+    20deg,
     var(--gradient-1) 0%,
     var(--gradient-2) 20%,
     var(--gradient-3) 30%,

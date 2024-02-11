@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue';
-import { computed, onMounted, type Ref, ref, watch } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { store } from '@/store/rootStore';
 import type { Car } from '@/models/Car';
 
@@ -10,7 +10,6 @@ enum CarOptions {
   FINANCING
 }
 let currentCar: Ref<Car | undefined> = ref();
-onMounted(() => {});
 
 const bestOption: Ref<CarOptions | undefined> = ref();
 
@@ -48,24 +47,24 @@ function calculateBestOption(car: Car) {
       <tbody class="comparison-list">
         <tr :class="{ 'best-option': bestOption === CarOptions.LEASING }" class="table-column">
           <td class="header-row">Leasing</td>
-          <td>{{ currentCar?.leasingDeposit ?? 0 }}</td>
-          <td>{{ currentCar?.leasingPrice ?? 0 }}</td>
+          <td>{{ currentCar?.leasingDeposit ?? 0 }} €</td>
+          <td>{{ currentCar?.leasingPrice ?? 0 }} €</td>
           <td>0 €</td>
-          <td class="total-cost-row">{{ currentCar?.leasingTotal ?? 0 }}</td>
+          <td class="total-cost-row">{{ currentCar?.leasingTotal ?? 0 }} €</td>
         </tr>
         <tr class="table-column" :class="{ 'best-option': bestOption === CarOptions.BUYING }">
           <td class="header-row">Buying</td>
-          <td>{{ currentCar?.buyingPrice ?? 0 }}</td>
+          <td>{{ currentCar?.buyingPrice ?? 0 }} €</td>
           <td>0 €</td>
           <td>0 €</td>
-          <td class="total-cost-row">{{ currentCar?.buyingTotal ?? 0 }}</td>
+          <td class="total-cost-row">{{ currentCar?.buyingTotal ?? 0 }} €</td>
         </tr>
         <tr class="table-column" :class="{ 'best-option': bestOption === CarOptions.FINANCING }">
           <td class="header-row">Finance</td>
-          <td>{{ currentCar?.financeDeposit ?? 0 }}</td>
-          <td>{{ currentCar?.financeMonthlyPayment ?? 0 }}</td>
-          <td>{{ currentCar?.financeFinalPayment ?? 0 }}</td>
-          <td class="total-cost-row">{{ currentCar?.financeTotal ?? 0 }}</td>
+          <td>{{ currentCar?.financeDeposit ?? 0 }} €</td>
+          <td>{{ currentCar?.financeMonthlyPayment ?? 0 }} €</td>
+          <td>{{ currentCar?.financeFinalPayment ?? 0 }} €</td>
+          <td class="total-cost-row">{{ currentCar?.financeTotal ?? 0 }} €</td>
         </tr>
       </tbody>
     </table>
@@ -110,12 +109,12 @@ function calculateBestOption(car: Car) {
   }
 
   .table-column {
-    min-width: 95%;
+    min-width: 100%;
     scroll-snap-align: start;
   }
 
   .total-cost-row {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 }
 
